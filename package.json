@@ -1,0 +1,22 @@
+{
+  "name": "generador-pabbly-js",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Generador de JavaScript para Pabbly Connect a partir de una tabla editable, con Vite y despliegue en GitHub Pages.",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --open",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --open",
+    "start": "npm run build && node server.js",
+    "serve": "node server.js",
+    "test": "node tests/check.js"
+  },
+  "devDependencies": {
+    "vite": "^8.3.6"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "license": "UNLICENSED"
+}

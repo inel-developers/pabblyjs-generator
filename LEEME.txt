@@ -1,0 +1,147 @@
+GENERADOR PABBLY - JAVASCRIPT PARA CONNECT
+==========================================
+
+REQUISITO
+  Node.js 20.19 o superior (recomendado: LTS actual).
+  Descarga oficial: https://nodejs.org/
+
+INICIO RAPIDO (WINDOWS)
+  1. Extrae TODO el contenido del ZIP en una carpeta.
+  2. Haz doble clic en INICIAR.bat.
+     La primera vez instala Vite, compila la app y abre:
+     http://127.0.0.1:8765
+  3. Manten la ventana negra abierta durante el uso.
+  4. Cierra esa ventana o presiona Ctrl+C para detener el servidor.
+
+  INICIAR.bat siempre compila antes de servir, asi que la pagina local
+  refleja el estado actual del codigo.
+
+COMANDOS (NPM)
+  npm install       Instala las dependencias (solo la primera vez).
+  npm run dev       Servidor de desarrollo Vite en http://127.0.0.1:5173
+                    con recarga automatica al guardar cambios.
+  npm run build     Genera la version estatica en la carpeta dist/.
+  npm run preview   Sirve la version compilada en http://127.0.0.1:4173
+                    para comprobarla antes de publicarla.
+  npm start         Compila y sirve dist/ en http://127.0.0.1:8765.
+  npm run serve     Sirve dist/ sin volver a compilar.
+  npm test          Ejecuta las pruebas del motor.
+
+  La app es 100 % estatica: dist/ puede copiarse a cualquier hosting
+  (GitHub Pages, Netlify, un servidor propio) sin Node.js en el destino.
+
+PUBLICAR EN GITHUB PAGES
+  1. Crea un repositorio vacio en https://github.com/new
+     (puede ser publico o privado; Pages funciona en ambos planes).
+  2. Desde esta carpeta, en PowerShell o CMD:
+       git init
+       git add .
+       git commit -m "Generador Pabbly con Vite"
+       git branch -M main
+       git remote add origin https://github.com/USUARIO/REPOSITORIO.git
+       git push -u origin main
+  3. En GitHub abre el repositorio y entra en:
+       Settings -> Pages -> Build and deployment -> Source
+     Elige "GitHub Actions".
+  4. Cada push a main ejecuta el flujo .github/workflows/pages.yml:
+     instala dependencias, ejecuta pruebas, compila y publica dist/.
+  5. La URL aparece en Settings -> Pages y en la pestana Actions:
+       https://USUARIO.github.io/REPOSITORIO/
+     La primera publicacion puede tardar 1-2 minutos.
+
+  Notas:
+  - node_modules/ y dist/ estan en .gitignore: no se suben.
+    GitHub Actions compila desde el codigo fuente.
+  - vite.config.mjs usa base './', por lo que las rutas de los recursos
+    son relativas y funcionan tanto en la raiz como en /REPOSITORIO/.
+  - Para forzar una publicacion sin cambiar codigo:
+    Actions -> Deploy to GitHub Pages -> Run workflow.
+  - El flujo escucha la rama main. Si usas master, cambia
+    branches: [main] por branches: [main, master] en pages.yml.
+
+USO
+  - Copia un rango de Excel con las columnas:
+    Pregunta | Peso % | Opcion 1 | Puntaje | Opcion 2 | Puntaje | Opcion 3 | Puntaje
+  - Tambien admite el bloque original con "N.o Eje" como primera columna.
+    Esa columna y la fila de encabezado se omiten automaticamente.
+  - Selecciona la primera celda de la tabla web y presiona Ctrl+V.
+  - No hay limite fijo de preguntas: se crean las filas necesarias.
+  - Puedes pegar 1, 2 o 3 opciones por pregunta. Las columnas vacias no fallan.
+  - Las filas completamente vacias se ignoran.
+
+PESOS
+  - Se acepta cualquier peso entre 0 y 100, incluido 0 %.
+  - Un peso de 0 % es valido: la pregunta se conserva con su ID, variable,
+    opciones y puntajes, pero no influye en la clasificacion.
+  - La suma debe ser 100 % con una tolerancia de 0.05 puntos porcentuales.
+    Ejemplo: 33,33 + 66,66 se acepta como 100 %.
+  - El peso puede pegarse como 8%, 8, 8.5 o 0.08. Un conjunto de decimales
+    de Excel como 0.08, 0.18, 0.22 se interpreta como 8%, 18%, 22%.
+  - Los pesos no se normalizan ni se redistribuyen automaticamente.
+
+VARIABLES E IDS
+  - Las preguntas siempre se numeran desde 0: p0, p1, p2...
+  - Las preguntas con peso 0 % tambien reciben su variable.
+  - Al agregar o eliminar filas, la secuencia se recalcula sin saltos.
+  - No se modifican los umbrales de clasificacion:
+    CALIENTE >= 80, TIBIO > 60 y < 80, FRIO <= 60.
+
+VALIDACION
+  - Los mensajes indican la fila y la columna exacta cuando es posible.
+  - Si la suma no es 100 %, se indica cuanto falta o cuanto sobra.
+  - Si una opcion tiene texto sin puntaje, o puntaje sin texto, se avisa.
+  - Si la tabla pegada tiene mas de 8 columnas de datos, no se pega nada y
+    se muestra un aviso para evitar desplazamientos silenciosos.
+  - Si se pega una tabla con "N.o Eje", se informa que esa columna se omitio.
+
+TEMA CLARO / OSCURO
+  - El boton de tema esta en la barra superior (icono de luna o sol).
+  - Al abrir la pagina se usa el tema del sistema operativo.
+  - El cambio manual dura solo mientras la pestana esta abierta.
+    No se guarda en el navegador: al recargar se vuelve al tema del sistema.
+  - El bloque de codigo usa colores de JavaScript y se mantiene oscuro en
+    ambos temas para conservar el contraste del resaltado de sintaxis.
+
+PRIVACIDAD
+  - No se guarda nada en disco ni en el almacenamiento del navegador.
+    No se usa localStorage, sessionStorage, cookies ni autoguardado.
+  - Los datos y el codigo quedan solamente en la memoria de la pestana.
+  - La conversion sucede en el navegador. Ni el servidor local ni GitHub
+    Pages reciben la tabla: no hay backend ni llamadas con tus datos.
+  - Al refrescar o cerrar la pestana, se perdera todo.
+  - GitHub Pages solo sirve los archivos estaticos de la app.
+
+RED / INTERNET
+  El servidor local usa HOST=127.0.0.1 por seguridad y PORT=8765 por defecto.
+  Ejemplos para una red privada:
+    set HOST=0.0.0.0
+    set PORT=8765
+    node server.js
+  Para exponerlo a Internet, NO abras el puerto directamente:
+  primero configura HTTPS, autenticacion y un proxy seguro.
+  En GitHub Pages no ejecutas server.js: GitHub sirve dist/ por HTTPS.
+
+PRUEBAS
+  Ejecuta:
+    npm test
+  o bien:
+    node tests/check.js
+  Las pruebas cubren pesos 0 %, una pregunta al 100 % con el resto en 0 %,
+  fracciones de Excel, tolerancia decimal, 1/2/3 opciones, pegado con
+  "N.o Eje", columnas adicionales, IDs desde p0, clasificacion y las filas
+  originales del cuestionario.
+
+ESTRUCTURA
+  INICIAR.bat              instala, compila y sirve en local
+  index.html               entrada de Vite
+  src/app.js               hoja editable, pegado Excel, validacion y botones
+  src/style.css            apariencia
+  public/theme.js          aplica el tema antes de pintar
+  public/favicon.svg       icono
+  generator.js             motor autonomo que valida y genera el JavaScript Pabbly
+  tests/                   pruebas del motor
+  vite.config.mjs          configuracion de Vite (base relativa, dist/)
+  server.js                servidor local para la version compilada
+  .github/workflows/       publicacion automatica en GitHub Pages
+  package.json             scripts y dependencia de desarrollo Vite
+  dist/                    salida compilada (se crea con npm run build)
