@@ -16,7 +16,7 @@ La aplicación es 100 % estática: todo el procesamiento ocurre en el navegador.
 
 ## Requisitos
 
-- Node.js **20.19 o superior** (recomendado: LTS actual).
+- Node.js **24 o superior**.
 
 ## Uso local
 

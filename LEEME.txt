@@ -2,7 +2,7 @@ GENERADOR PABBLY - JAVASCRIPT PARA CONNECT
 ==========================================
 
 REQUISITO
-  Node.js 20.19 o superior (recomendado: LTS actual).
+  Node.js 24 o superior.
   Descarga oficial: https://nodejs.org/
 
 INICIO RAPIDO (WINDOWS)

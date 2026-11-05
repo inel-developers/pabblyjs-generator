@@ -11,7 +11,7 @@ echo.
 where node >nul 2>nul
 if errorlevel 1 (
  echo [AVISO] Node.js no esta instalado o no aparece en PATH.
- echo         Instala Node.js 20.19 o superior desde https://nodejs.org/
+ echo         Instala Node.js 24 o superior desde https://nodejs.org/
  echo         Al terminar, ejecuta INICIAR.bat nuevamente.
  echo.
  choice /C SN /M "Abrir la pagina oficial de Node.js ahora"
