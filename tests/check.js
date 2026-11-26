@@ -26,7 +26,7 @@ assert.equal(high.Porcentaje, '100.00%');
 assert.deepEqual(Object.keys(high).sort(), ['Debug', 'Porcentaje', 'Puntuacion', 'Tipo']);
 const medium = run(base, { p0: 'No', p1: 'País: Chile' });
 assert.equal(medium.Puntuacion, 60);
-assert.equal(medium.Tipo, 'FRIO');
+assert.equal(medium.Tipo, 'TIBIO');
 const other = run(base, { p0: 'Sí', p1: 'País: Bolivia' });
 assert.equal(other.Puntuacion, 55);
 assert.equal(other.Tipo, 'FRIO');
@@ -190,11 +190,12 @@ assert.throws(() => parseRows([['A', '100', 'Sí', 'abc']]), /puntaje de la opci
 assert.throws(() => parseRows([['A', '100', 'Sí', '']]), /le falta el puntaje/);
 assert.throws(() => parseRows([['A', '100', '', '50']]), /le falta el texto/);
 
-// 17. Clasificación sin cambios: 80 CALIENTE, >60 TIBIO, 60 FRÍO.
+// 17. Clasificación: 80 CALIENTE, >=60 TIBIO, <60 FRÍO.
 assert.equal(run(single(80), { p0: 'Valor' }).Tipo, 'CALIENTE');
 assert.equal(run(single(79.99), { p0: 'Valor' }).Tipo, 'TIBIO');
 assert.equal(run(single(60.01), { p0: 'Valor' }).Tipo, 'TIBIO');
-assert.equal(run(single(60), { p0: 'Valor' }).Tipo, 'FRIO');
+assert.equal(run(single(60), { p0: 'Valor' }).Tipo, 'TIBIO');
+assert.equal(run(single(59.99), { p0: 'Valor' }).Tipo, 'FRIO');
 
 // 18. Resumen de pesos compartido por la interfaz.
 const summary = summarizeWeights([['A', '40', 'Sí', '100'], ['B', '0', 'Sí', '100']]);

@@ -84,7 +84,7 @@ VARIABLES E IDS
   - Las preguntas con peso 0 % tambien reciben su variable.
   - Al agregar o eliminar filas, la secuencia se recalcula sin saltos.
   - No se modifican los umbrales de clasificacion:
-    CALIENTE >= 80, TIBIO > 60 y < 80, FRIO <= 60.
+    CALIENTE >= 80, TIBIO >= 60 y < 80, FRIO < 60.
 
 VALIDACION
   - Los mensajes indican la fila y la columna exacta cuando es posible.
