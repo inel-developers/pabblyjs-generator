@@ -235,7 +235,7 @@
     });
     blocks.push('var score=' + questions.map((question, i) => 'ponderado(raw' + i + ',PESOS.p' + i + ')').join('+') + ';');
     blocks.push('score=Math.round(score*100)/100;if(score>100)score=100;if(0>score)score=0;');
-    blocks.push('var tipo="";if(score>=80){tipo="CALIENTE";}else if(score>60&&80>score){tipo="TIBIO";}else{tipo="FRIO";}');
+    blocks.push('var tipo="";if(score>=80){tipo="CALIENTE";}else if(score>=60&&80>score){tipo="TIBIO";}else{tipo="FRIO";}');
     blocks.push('output={Puntuacion:score,Tipo:tipo,Porcentaje:score.toFixed(2)+"%",Debug:{' + questions.map((question, i) => 'raw' + i + ':raw' + i).join(',') + '}};');
     return blocks.join(readable ? '\n' : '') + '\n';
   }
